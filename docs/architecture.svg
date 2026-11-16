@@ -1,0 +1,168 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="900" viewBox="0 0 1280 900" font-family="Inter, Segoe UI, Arial, sans-serif">
+  <rect width="1280" height="900" fill="#fafafa"/>
+
+  <!-- Title -->
+  <text x="40" y="42" font-size="24" font-weight="700" fill="#222">Vacation-rental marketplace — production architecture</text>
+  <text x="40" y="66" font-size="13" fill="#555">How a listing page like this clone scales to Airbnb size. Pink = implemented in this take-home. Grey/blue/amber = target production design.</text>
+
+  <!-- Legend -->
+  <rect x="900" y="22" width="14" height="14" rx="3" fill="#fff1f3" stroke="#ff385c" stroke-width="2"/>
+  <text x="922" y="34" font-size="12" fill="#333">This submission</text>
+  <rect x="1040" y="22" width="14" height="14" rx="3" fill="#eef6ff" stroke="#4a90d9"/>
+  <text x="1062" y="34" font-size="12" fill="#333">Scale-out services</text>
+  <rect x="900" y="44" width="14" height="14" rx="3" fill="#fff8e6" stroke="#d9a441"/>
+  <text x="922" y="56" font-size="12" fill="#333">Data / async</text>
+  <rect x="1040" y="44" width="14" height="14" rx="3" fill="#f2fbf2" stroke="#57a657"/>
+  <text x="1062" y="56" font-size="12" fill="#333">Deploy / ops</text>
+
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#666"/>
+    </marker>
+  </defs>
+
+  <!-- ========== LAYER 1: CLIENTS ========== -->
+  <text x="40" y="100" font-size="11" font-weight="700" fill="#888" letter-spacing="1.2">1. CLIENTS (FRONTEND)</text>
+  <rect x="40" y="110" width="280" height="78" rx="10" fill="#fff1f3" stroke="#ff385c" stroke-width="2"/>
+  <text x="56" y="136" font-size="14" font-weight="700" fill="#222">Web app *</text>
+  <text x="56" y="156" font-size="12" fill="#444">React + TypeScript (Vite)</text>
+  <text x="56" y="174" font-size="12" fill="#666">Listing / Photo Tour / Lightbox</text>
+
+  <rect x="340" y="110" width="220" height="78" rx="10" fill="#f7f7f7" stroke="#bbb"/>
+  <text x="356" y="136" font-size="14" font-weight="700" fill="#222">At scale</text>
+  <text x="356" y="156" font-size="12" fill="#444">SSR/SSG (Next.js) for SEO</text>
+  <text x="356" y="174" font-size="12" fill="#666">Native iOS / Android apps</text>
+
+  <rect x="580" y="110" width="300" height="78" rx="10" fill="#f7f7f7" stroke="#bbb"/>
+  <text x="596" y="136" font-size="14" font-weight="700" fill="#222">CDN / Edge</text>
+  <text x="596" y="156" font-size="12" fill="#444">Static shells, image renditions</text>
+  <text x="596" y="174" font-size="12" fill="#666">WAF, bot protection, rate limits</text>
+
+  <!-- ========== LAYER 2: ENTRY ========== -->
+  <text x="40" y="230" font-size="11" font-weight="700" fill="#888" letter-spacing="1.2">2. ENTRY</text>
+  <rect x="40" y="240" width="520" height="70" rx="10" fill="#f7f7f7" stroke="#bbb"/>
+  <text x="56" y="268" font-size="14" font-weight="700" fill="#222">API Gateway / BFF</text>
+  <text x="56" y="288" font-size="12" fill="#444">JWT/OAuth auth · routing · response aggregation · cache headers</text>
+
+  <rect x="580" y="240" width="300" height="70" rx="10" fill="#fff1f3" stroke="#ff385c" stroke-width="2"/>
+  <text x="596" y="268" font-size="14" font-weight="700" fill="#222">Dev today *</text>
+  <text x="596" y="288" font-size="12" fill="#444">Vite proxies /api → Spring Boot :8080</text>
+
+  <!-- arrows clients -> entry -->
+  <path d="M180 188 V240" stroke="#888" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+  <path d="M450 188 V240" stroke="#888" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+  <path d="M730 188 V240" stroke="#888" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+
+  <!-- ========== LAYER 3: SERVICES ========== -->
+  <text x="40" y="350" font-size="11" font-weight="700" fill="#888" letter-spacing="1.2">3. BACKEND SERVICES</text>
+
+  <!-- Read path label -->
+  <rect x="40" y="360" width="600" height="150" rx="12" fill="#ffffff" stroke="#d0d0d0" stroke-dasharray="4 3"/>
+  <text x="56" y="382" font-size="12" font-weight="700" fill="#ff385c">READ PATH — cache-heavy</text>
+
+  <rect x="56" y="398" width="200" height="94" rx="10" fill="#fff1f3" stroke="#ff385c" stroke-width="2"/>
+  <text x="70" y="424" font-size="14" font-weight="700" fill="#222">Listing Service *</text>
+  <text x="70" y="444" font-size="12" fill="#444">Java 21 + Spring Boot</text>
+  <text x="70" y="462" font-size="11" fill="#666">GET /listings/{id}</text>
+  <text x="70" y="478" font-size="11" fill="#666">photos · reviews · similar</text>
+
+  <rect x="274" y="398" width="170" height="94" rx="10" fill="#eef6ff" stroke="#4a90d9"/>
+  <text x="288" y="424" font-size="14" font-weight="700" fill="#222">Search</text>
+  <text x="288" y="444" font-size="12" fill="#444">OpenSearch + geo</text>
+  <text x="288" y="462" font-size="11" fill="#666">filters, facets</text>
+  <text x="288" y="478" font-size="11" fill="#666">ranking / ML signals</text>
+
+  <rect x="462" y="398" width="160" height="94" rx="10" fill="#eef6ff" stroke="#4a90d9"/>
+  <text x="476" y="424" font-size="14" font-weight="700" fill="#222">Identity</text>
+  <text x="476" y="444" font-size="12" fill="#444">users, KYC</text>
+  <text x="476" y="462" font-size="11" fill="#666">messaging, trust</text>
+  <text x="476" y="478" font-size="11" fill="#666">fraud signals</text>
+
+  <!-- Write path -->
+  <rect x="660" y="360" width="580" height="150" rx="12" fill="#ffffff" stroke="#d0d0d0" stroke-dasharray="4 3"/>
+  <text x="676" y="382" font-size="12" font-weight="700" fill="#1a7f37">WRITE PATH (strongly consistent)</text>
+
+  <rect x="676" y="398" width="200" height="94" rx="10" fill="#fff1f3" stroke="#ff385c" stroke-width="2"/>
+  <text x="690" y="424" font-size="14" font-weight="700" fill="#222">Quote / Booking *</text>
+  <text x="690" y="444" font-size="12" fill="#444">POST /quote (today)</text>
+  <text x="690" y="462" font-size="11" fill="#666">At scale: holds, payments,</text>
+  <text x="690" y="478" font-size="11" fill="#666">idempotent booking API</text>
+
+  <rect x="894" y="398" width="160" height="94" rx="10" fill="#eef6ff" stroke="#4a90d9"/>
+  <text x="908" y="424" font-size="14" font-weight="700" fill="#222">Payments</text>
+  <text x="908" y="444" font-size="12" fill="#444">PSP (Stripe etc.)</text>
+  <text x="908" y="462" font-size="11" fill="#666">webhooks + ledger</text>
+  <text x="908" y="478" font-size="11" fill="#666">refunds / payouts</text>
+
+  <rect x="1072" y="398" width="150" height="94" rx="10" fill="#eef6ff" stroke="#4a90d9"/>
+  <text x="1086" y="424" font-size="14" font-weight="700" fill="#222">Notify</text>
+  <text x="1086" y="444" font-size="12" fill="#444">email / push</text>
+  <text x="1086" y="462" font-size="11" fill="#666">booking + host</text>
+  <text x="1086" y="478" font-size="11" fill="#666">async via Kafka</text>
+
+  <!-- gateway to services -->
+  <path d="M200 310 V360" stroke="#888" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+  <path d="M730 310 V360" stroke="#888" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+
+  <!-- ========== LAYER 4: STORAGE ========== -->
+  <text x="40" y="550" font-size="11" font-weight="700" fill="#888" letter-spacing="1.2">4. STORAGE + SEARCH + ASYNC</text>
+
+  <rect x="40" y="560" width="220" height="100" rx="10" fill="#fff8e6" stroke="#d9a441"/>
+  <text x="54" y="586" font-size="14" font-weight="700" fill="#222">PostgreSQL</text>
+  <text x="54" y="606" font-size="12" fill="#444">source of truth</text>
+  <text x="54" y="624" font-size="11" fill="#666">listings, bookings, users</text>
+  <text x="54" y="642" font-size="11" fill="#666">replicas + shard by city</text>
+
+  <rect x="280" y="560" width="220" height="100" rx="10" fill="#fff8e6" stroke="#d9a441"/>
+  <text x="294" y="586" font-size="14" font-weight="700" fill="#222">Redis</text>
+  <text x="294" y="606" font-size="12" fill="#444">hot listing/quote cache</text>
+  <text x="294" y="624" font-size="11" fill="#666">sessions</text>
+  <text x="294" y="642" font-size="11" fill="#666">booking hold locks</text>
+
+  <rect x="520" y="560" width="220" height="100" rx="10" fill="#fff8e6" stroke="#d9a441"/>
+  <text x="534" y="586" font-size="14" font-weight="700" fill="#222">Object store (S3)</text>
+  <text x="534" y="606" font-size="12" fill="#444">original photos</text>
+  <text x="534" y="624" font-size="11" fill="#666">async image pipeline</text>
+  <text x="534" y="642" font-size="11" fill="#666">served via CDN</text>
+
+  <rect x="760" y="560" width="220" height="100" rx="10" fill="#fff8e6" stroke="#d9a441"/>
+  <text x="774" y="586" font-size="14" font-weight="700" fill="#222">OpenSearch</text>
+  <text x="774" y="606" font-size="12" fill="#444">geo + full-text search</text>
+  <text x="774" y="624" font-size="11" fill="#666">fed by Kafka events</text>
+  <text x="774" y="642" font-size="11" fill="#666">not on write hot path</text>
+
+  <rect x="1000" y="560" width="240" height="100" rx="10" fill="#fff8e6" stroke="#d9a441"/>
+  <text x="1014" y="586" font-size="14" font-weight="700" fill="#222">Kafka</text>
+  <text x="1014" y="606" font-size="12" fill="#444">booking / review events</text>
+  <text x="1014" y="624" font-size="11" fill="#666">search indexing</text>
+  <text x="1014" y="642" font-size="11" fill="#666">notifications, analytics, ML</text>
+
+  <!-- service to data arrows -->
+  <path d="M156 510 V560" stroke="#888" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+  <path d="M360 510 V560" stroke="#888" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+  <path d="M630 510 V560" stroke="#888" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+  <path d="M776 492 V560" stroke="#888" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+  <path d="M1120 492 V560" stroke="#888" stroke-width="1.5" fill="none" marker-end="url(#arr)"/>
+
+  <!-- ========== LAYER 5: DEPLOY ========== -->
+  <text x="40" y="710" font-size="11" font-weight="700" fill="#888" letter-spacing="1.2">5. DEPLOYMENT + SCALING</text>
+
+  <rect x="40" y="720" width="380" height="88" rx="10" fill="#f2fbf2" stroke="#57a657"/>
+  <text x="54" y="746" font-size="14" font-weight="700" fill="#222">Kubernetes</text>
+  <text x="54" y="766" font-size="12" fill="#444">multi-AZ · HPA autoscaling · rolling deploys</text>
+  <text x="54" y="784" font-size="11" fill="#666">circuit breakers · OpenTelemetry / Prometheus / Grafana</text>
+
+  <rect x="440" y="720" width="380" height="88" rx="10" fill="#f2fbf2" stroke="#57a657"/>
+  <text x="454" y="746" font-size="14" font-weight="700" fill="#222">CI/CD</text>
+  <text x="454" y="766" font-size="12" fill="#444">GitHub Actions → tests → Docker → Argo CD</text>
+  <text x="454" y="784" font-size="11" fill="#666">PR preview envs · feature flags · canary releases</text>
+
+  <rect x="840" y="720" width="400" height="88" rx="10" fill="#f2fbf2" stroke="#57a657"/>
+  <text x="854" y="746" font-size="14" font-weight="700" fill="#222">Scaling strategy (short version)</text>
+  <text x="854" y="766" font-size="12" fill="#444">Reads: CDN → Redis → Postgres replicas</text>
+  <text x="854" y="784" font-size="11" fill="#666">Writes: Postgres + Redis locks; side effects via Kafka</text>
+
+  <!-- Footer -->
+  <text x="40" y="848" font-size="12" fill="#555">* Implemented here: frontend/ (React+TS) + backend/ (Java Spring Boot listing + quote API). Same API contract can later sit behind the gateway without rewriting the UI.</text>
+  <text x="40" y="870" font-size="12" fill="#555">Today seed data is in-memory; at scale it becomes Postgres + S3 with no change to the React contract (frontend already falls back to a listing.json snapshot offline).</text>
+</svg>

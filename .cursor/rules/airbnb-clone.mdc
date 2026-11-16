@@ -1,0 +1,22 @@
+---
+description: Project rules for the Airbnb-clone take-home
+alwaysApply: true
+---
+
+# Airbnb-clone rules
+
+- Stack is fixed: React + TypeScript (Vite) frontend, Java 21 + Spring Boot
+  backend. Do not introduce Angular or a Node backend.
+- Original implementation only: match the reference page's layout/behaviour,
+  never copy its source code, hashed class names, or image assets.
+- All listing content flows through the Java API
+  (`/api/listings/{id}`, `/quote`). Keep `frontend/src/data/listing.json`
+  in sync as the offline fallback snapshot.
+- Design tokens are CSS variables in `frontend/src/index.css`
+  (Rausch `#ff385c`, Ink `#222222`, 1120px column). Reuse them; don't
+  hard-code new colours/spacing scales.
+- Overlays must be accessible dialogs: focus trap, Esc closes, focus is
+  restored to the opener, body scroll is locked (`src/lib/hooks.ts`).
+- Desktop only; still respect `prefers-reduced-motion`.
+- Before declaring done: backend `mvn package` and frontend `npm run build`
+  must pass, and the running page must be screenshot-checked.
